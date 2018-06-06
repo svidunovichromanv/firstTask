@@ -1,18 +1,10 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8"/>
-    <title>test</title>
-  </head>
-  <body>
-  <script>
-    function toNormalCase(str){
+function toNormalCase(str){
       str = str.toLowerCase()
       return str[0].toUpperCase() + str.slice(1);
     };
     function isFail(str){
       if (str==" " || !isNaN(str)){
-      let n = 0;
+      var n = 0;
       while ( n <= 2 ) {
         str = prompt("Введите, пожалуйста, корректно", " ");
         if (str!==" " && isNaN(str)) break;
@@ -28,21 +20,21 @@
       p = toNormalCase(p);
       return s + " " + n + " " + p;
     };
-    let surname = prompt("Введите вашу фамилию", " ");
+    var surname = prompt("Введите вашу фамилию", " ");
     surname = isFail(surname);
-    let name = prompt("Введите ваше имя", " "); 
+    var name = prompt("Введите ваше имя", " "); 
     name = isFail(name);
-    let patronymic = prompt("Введите вашу отчество", " ");
+    var patronymic = prompt("Введите вашу отчество", " ");
     patronymic = isFail(patronymic);
-    let age = prompt("Введите ваше количкство полных лет", " ");
+    var age = prompt("Введите ваше количкство полных лет", " ");
     if (isNaN(age) || age <= 0 || age > 150){
       age = prompt("Введите корректно", " ");
       if (isNaN(age) || age <= 0 || age > 150) age = "FAIL";
     }
     age = Math.floor(+age);
-    let after5 = age + 5; 
-    let ageDay =  Math.floor(age*365.25); 
-    let sex = confirm("Вы мужчина?");
+    var after5 = age + 5; 
+    var ageDay =  Math.floor(age*365.25); 
+    var sex = confirm("Вы мужчина?");
     if (sex == true){
       if (age >= 63) {
         var pension = "да";
@@ -61,8 +53,4 @@
     } else {
       sex = "женский";
     }
-    alert ("ваше ФИО: " + getFullName(surname, name, patronymic) + "\nваш возраст в годах: " + age + "\nваш возраст в днях: " + ageDay + "\nчерез 5 лет вам будет: " + after5 + "\nваш пол: " + sex + "\nвы на пенсии: " + pension);
-    //проба GIT
-  </script>
-  </body>
-</html>
+    document.body.innerHTML ="<p>ваше ФИО: " + getFullName(surname, name, patronymic) + "</p>" + "<p>ваш возраст в годах: " + age + "</p>" + "<p>ваш возраст в днях: " + ageDay + "</p>" + "<p>через 5 лет вам будет: " + after5 + "</p>" + "<p>ваш пол: " + sex + "</p>" + "<p>вы на пенсии: " + pension + "</p>";
