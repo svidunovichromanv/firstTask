@@ -1,56 +1,106 @@
-function toNormalCase(str){
-      str = str.toLowerCase()
-      return str[0].toUpperCase() + str.slice(1);
-    };
-    function isFail(str){
-      if (str==" " || !isNaN(str)){
-      var n = 0;
-      while ( n <= 2 ) {
-        str = prompt("Введите, пожалуйста, корректно", " ");
-        if (str!==" " && isNaN(str)) break;
-        n++;
+'use strict';
+
+const readline = require('readline');
+
+const result = {
+    name:'',
+    age:0,
+    surname:'',
+    patronymic:'',
+    sex: ''    
+}
+
+let askName = () => {
+    const rl = prompt();
+    rl.question('Какое Ваше имя? ', (answer) => {
+        rl.close();
+        if (!answer) {
+            console.log('Имя не может быть пустым.');
+            askName();
         }
-      }
-      if (str==" " || !isNaN(str)) return str = "FAIL";
-      return str;
-    };
-    function getFullName(s, n, p){
-      s = toNormalCase(s);
-      n = toNormalCase(n);
-      p = toNormalCase(p);
-      return s + " " + n + " " + p;
-    };
-    var surname = prompt("Введите вашу фамилию", " ");
-    surname = isFail(surname);
-    var name = prompt("Введите ваше имя", " "); 
-    name = isFail(name);
-    var patronymic = prompt("Введите вашу отчество", " ");
-    patronymic = isFail(patronymic);
-    var age = prompt("Введите ваше количкство полных лет", " ");
-    if (isNaN(age) || age <= 0 || age > 150){
-      age = prompt("Введите корректно", " ");
-      if (isNaN(age) || age <= 0 || age > 150) age = "FAIL";
-    }
-    age = Math.floor(+age);
-    var after5 = age + 5; 
-    var ageDay =  Math.floor(age*365.25); 
-    var sex = confirm("Вы мужчина?");
-    if (sex == true){
-      if (age >= 63) {
-        var pension = "да";
-      } else {
-        pension = "нет";
-      }    
-    } else {
-      if (age >= 56){
-        pension = "да";
-      } else {
-        pension = "нет";
-      } 
-    }
-    if (sex == true){
-      sex = "мужской";
-    } else {
-      sex = "женский";
-    }
-    document.body.innerHTML ="<p>ваше ФИО: " + getFullName(surname, name, patronymic) + "</p>" + "<p>ваш возраст в годах: " + age + "</p>" + "<p>ваш возраст в днях: " + ageDay + "</p>" + "<p>через 5 лет вам будет: " + after5 + "</p>" + "<p>ваш пол: " + sex + "</p>" + "<p>вы на пенсии: " + pension + "</p>";
+        else {
+            result.name = answer;
+            askSurname();
+        }
+    });
+}
+let askSurname = () => {
+    const rl = prompt();
+    rl.question('Как Ваша фамилия? ', (answer) => {
+        rl.close();
+        if (!answer) {
+            console.log('Фамилия не может быть пустой.');
+            askSurname();
+        }
+        else {
+            result.surname = answer;
+            askPatronymic();
+        }
+    });
+}
+let askPatronymic = () => {
+    const rl = prompt();
+    rl.question('Как Вашe отчкство? ', (answer) => {
+        rl.close();
+        if (!answer) {
+            console.log('Отчество не может быть пустым.');
+            askPatronymic();
+        }
+        else {
+            result.patronymic = answer;
+            askAge();
+        }
+    });
+}
+
+let askAge = () => {
+    const rl = prompt();
+    rl.question('Какой Ваш возраст? ', (answer) => {
+        rl.close();
+        const age = +answer;
+        if (isNaN(age)) {
+            console.log('Возраст должен быть введен числом.');
+            askAge();
+        }
+        else {
+            result.age = age;
+            askSex();
+        }
+    });
+}
+let askSex = () => {
+    const rl = prompt();
+    rl.question('Какой Ваш пол? ', (answer) => {
+        rl.close();
+        const sex = answer;
+        if (sex === "м" || sex === "ж") {
+            result.sex = sex;
+            end();
+        } else {
+            console.log('Ваш пол должен быть введён так: "м" или "ж".');
+            askSex();
+        }
+    });
+}
+let writeSex = () => {
+  if (result.sex === "м"){
+    return "мужской";
+  } else {
+    return "женский";
+  }
+}
+let writePension = () => {
+  if ((result.sex === "м" && result.age >= 63) || (result.sex === "ж" && result.age >= 58)){
+    return "вы на пенсии";
+  } else {
+    return "вы не на пенсии";
+  }
+}
+let prompt = () => readline.createInterface({ input: process.stdin,  output: process.stdout});
+
+
+let end = () => {
+    console.log(`Вы ввели: имя ${result.name}, фамилия ${result.surname}, отчество ${result.patronymic}, возраст ${result.age}, возраст через 5 лет ${result.age + 5}, возраст в днях: ${result.age*365.25}, ваш пол: ${writeSex()}, ${writePension()}`);
+}
+
+askName();
