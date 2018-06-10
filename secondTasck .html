@@ -9,11 +9,12 @@
      'use strict';
     /*Сгенерировать массив из N случайных целых чисел. Поменять местами все элементы относительно середины массива по следующей схеме:
 Было [1,2,3,4,5,6,7], стало [5,6,7,4,1,2,3]. Создавать новые массивы нельзя.
-[1,2,3] [3,2,1]
+[1,2,3,4,5,6] [4,5,6,1,2,3]
 */
-    function smartReverse(arr) {
-    if (!arr || !Array.isArray(arr)) return null;
-    switch (arr.length) {
+    function smartReverse(array) {
+    if (!array || !Array.isArray(array)) return null;
+    let arr = array.slice();
+      switch (arr.length) {
         case 0:
         return ["был пустой массив"];
         case 1:
@@ -21,82 +22,82 @@
             // то ничего делать не нужно
             return arr;
 		//TODO
-        case 2: arr = [arr[1], arr[0]];
-        return arr;
-        case 3: arr = [arr[2], arr[1], arr[0]];
-        return arr;
-        case 4: arr = [arr[2], arr[3], arr[0], arr[1]];
-        return arr;
-        case 5: arr = [arr[3], arr[4], arr[2], arr[0], arr[1]];
-        return arr;
-        case 6: arr = [arr[3], arr[4], arr[5], arr[0], arr[1], arr[2]];
-        return arr;
-        case 7: arr = [arr[4], arr[5], arr[6], arr[3], arr[0], arr[1], arr[2]];
-        return arr;
-        case 8: arr = [arr[4], arr[5], arr[6], arr[7], arr[0], arr[1], arr[2], arr[3]];
-        return arr;
-        case 9: arr = [arr[5], arr[6], arr[7], arr[8], arr[4], arr[0], arr[1], arr[2], arr[3]];
-        return arr;
+        default: 
+          if (arr.length % 2 === 1){
+            //для нечётного количества элементов в массиве
+            let indOfMid = Math.floor(arr.length/2);
+            for (let i = 0; i < indOfMid; i++){
+              let om = arr[i];
+              arr[i] = arr[indOfMid + i + 1];
+              arr[indOfMid + i + 1] = om;
+            }  
+          } else{
+            //для чётного количества элементов в массиве
+            let indOfMid = Math.floor(arr.length/2);
+            for (let i = 0; i < indOfMid; i++){
+              let om = arr[i];
+              arr[i] = arr[indOfMid + i];
+              arr[indOfMid + i] = om;
+            } 
+          }
+        return arr;  
+      }
     }
-}
     /*Сгенерировать массив из N случайных целых чисел. Поменять местами все элементы относительно середины массива по следующей схеме:
-Было [1,2,3,4,5,6,7,8,9], стало [4,3,2,1,5,9,8,7,6]. Создавать новые массивы нельзя.*/
+Было [1,2,3,4,5,6,7,8,9], стало [4,3,2,1,5,9,8,7,6]. Создавать новые массивы нельзя.
+[1,2,3,4,5] [2,1,3,5,4]
+*/
     function smartReverse2(arr) {
     if (!arr || !Array.isArray(arr)) return null;
     switch (arr.length) {
         case 0:
         return ["был пустой массив"];
-        case 1:
-            // если в массиве до 2 элементов !!!?????включительно?????!!!,
+        case 1 || 2:
+            // если в массиве до 2 элементов включительно,
             // то ничего делать не нужно
             return arr;
 		//TODO
-        case 2: arr = [arr[0], arr[1]];
-        return arr;
-        case 3: arr = [arr[2], arr[1], arr[0]];
-        return arr;
-        case 4: arr = [arr[1], arr[0], arr[3], arr[2]];
-        return arr;
-        case 5: arr = [arr[1], arr[0], arr[2], arr[4], arr[3]];
-        return arr;
-        case 6: arr = [arr[2], arr[1], arr[0], arr[5], arr[4], arr[3]];
-        return arr;
-        case 7: arr = [arr[2], arr[1], arr[0], arr[3], arr[6], arr[5], arr[4]];
-        return arr;
-        case 8: arr = [arr[3], arr[2], arr[1], arr[0], arr[7], arr[6], arr[5], arr[4]];
-        return arr;
-        case 9: arr = [arr[3], arr[2], arr[1], arr[0], arr[4], arr[8], arr[7], arr[6], arr[5]];
-        return arr;
-    }
+        default: 
+          if (arr.length % 2 === 1){
+            //для нечётного количества элементов в массиве
+            let indOfMid = Math.floor(arr.length/2);
+            for (let i = 0; i < indOfMid/2; i++){
+              let om1 = arr[i];
+              let om2 = arr[i + 1 + indOfMid];
+              arr[i] = arr[indOfMid - i - 1];
+              arr[indOfMid - i - 1] = om1;
+              arr[i + 1 + indOfMid] = arr[arr.length - i - 1];
+              arr[arr.length - i - 1] = om2;
+            }  
+          } else{
+            //для чётного количества элементов в массиве [1,2,3,4,5,6,7,8] [4,3,2,1,8,7,6,5] 
+            let indOfMid = Math.floor(arr.length/2);//3
+            for (let i = 0; i < indOfMid/2; i++){
+              let om1 = arr[i];
+              let om2 = arr[i  + indOfMid];
+              arr[i] = arr[indOfMid - i - 1];
+              arr[indOfMid - i - 1] = om1;
+              arr[i + indOfMid] = arr[arr.length - i - 1];
+              arr[arr.length - i - 1] = om2;
+            }  
+          }
+        return arr;  
+      }
 }
+    
     let ARRAY = [];
     function getArr(){
-      let n = Math.floor(Math.random()*10);
+      let n = Math.floor(Math.random()*12);
       let arr = [];
       for(let i = 0; i < n; i++){
-        arr.push(i+1);
+        arr.push(Math.floor(Math.random()*10));
       }
       return ARRAY = arr;
     }
     
-    alert(getArr()); 
-    alert(smartReverse(ARRAY));
-    alert(smartReverse2(ARRAY));
-    alert(getArr()); 
-    alert(smartReverse(ARRAY));
-    alert(smartReverse2(ARRAY));
-    alert(getArr()); 
-    alert(smartReverse(ARRAY));
-    alert(smartReverse2(ARRAY));
-    alert(getArr());
-    alert(smartReverse(ARRAY));
-    alert(smartReverse2(ARRAY));
-    alert(getArr()); 
-    alert(smartReverse(ARRAY));
-    alert(smartReverse2(ARRAY));
-    alert(getArr()); 
-    alert(smartReverse(ARRAY));
-    alert(smartReverse2(ARRAY));
+    alert("массив: " + getArr() + "\nрезультат по первому заданию: " + smartReverse(ARRAY) + "\nрезультат по второму заданию: " + smartReverse2(ARRAY)); 
+    
+    
     
     
     

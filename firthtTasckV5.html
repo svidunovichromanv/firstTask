@@ -6,10 +6,13 @@
   </head>
   <body>
   <script>
-    function toNormalCase(str){
+    'use strict'
+
+function toNormalCase(str){
       str = str.toLowerCase()
       return str[0].toUpperCase() + str.slice(1);
     };
+//function isFail может переспросить дважды при некорректности ввода строки и присвоить "FAIL" в её значение в пративном случа
     function isFail(str){
       if (str==" " || !isNaN(str)){
       var n = 0;
@@ -28,11 +31,11 @@
       p = toNormalCase(p);
       return s + " " + n + " " + p;
     };
-    var surname = prompt("Введите вашу фамилию", " ");
+    var surname = prompt("Введите вашу фамилию", " ").trim();
     surname = isFail(surname);
-    var name = prompt("Введите ваше имя", " "); 
+    var name = prompt("Введите ваше имя", " ").trim(); 
     name = isFail(name);
-    var patronymic = prompt("Введите вашу отчество", " ");
+    var patronymic = prompt("Введите вашу отчество", " ").trim();
     patronymic = isFail(patronymic);
     var age = prompt("Введите ваше количкство полных лет", " ");
     if (isNaN(age) || age <= 0 || age > 150){
@@ -61,7 +64,7 @@
     } else {
       sex = "женский";
     }
-    document.body.innerHTML ="<p>ваше ФИО: " + getFullName(surname, name, patronymic) + "</p>" + "<p>ваш возраст в годах: " + age + "</p>" + "<p>ваш возраст в днях: " + ageDay + "</p>" + "<p>через 5 лет вам будет: " + after5 + "</p>" + "<p>ваш пол: " + sex + "</p>" + "<p>вы на пенсии: " + pension + "</p>";*/
+    document.body.innerHTML ="<p>ваше ФИО: " + getFullName(surname, name, patronymic) + "</p>" + "<p>ваш возраст в годах: " + age + "</p>" + "<p>ваш возраст в днях: " + ageDay + "</p>" + "<p>через 5 лет вам будет: " + after5 + "</p>" + "<p>ваш пол: " + sex + "</p>" + "<p>вы на пенсии: " + pension + "</p>";
   </script>
   </body>
 </html>
